@@ -22,7 +22,7 @@ namespace Acme.Biz.Tests
             var actual = repository.RetrieveValue<int>("SELECT * FROM ...", 42);
 
             // Assert
-            Assert.AreEqual(expected, actual);  
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod()]
@@ -33,25 +33,41 @@ namespace Acme.Biz.Tests
             var expected = "test";
 
             // Act
-            var actual = repository.RetrieveValue<string>("SELECT * FROM ...", "test");
+            var actual = repository.RetrieveValue("SELECT * FROM ...", "test");
 
             // Assert
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod()]
-        public void RetrieveValueTestObjectTest()
+        public void RetrieveTest()
         {
             // Arrange
             var repository = new VendorRepository();
-            var vendor = new Vendor();
-            var expected = vendor;
+            var expected = new List<Vendor>();
+            expected.Add(new Vendor() { VendorId = 1, CompanyName = "ABC Corp", Email = "abc@abc.com" });
+            expected.Add(new Vendor() { VendorId = 2, CompanyName = "XYZ Inc", Email = "xyz@xyz.com" });
 
             // Act
-            var actual = repository.RetrieveValue<Vendor>("SELECT * FROM ...", vendor);
+            var actual = repository.Retrieve();
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
+
+        //[TestMethod()]
+        //public void RetrieveValueTestObjectTest()
+        //{
+        //    // Arrange
+        //    var repository = new VendorRepository();
+        //    var vendor = new Vendor();
+        //    var expected = vendor;
+
+        //    // Act
+        //    var actual = repository.RetrieveValue<Vendor>("SELECT * FROM ...", vendor);
+
+        //    // Assert
+        //    Assert.AreEqual(expected, actual);
+        //}
     }
 }
