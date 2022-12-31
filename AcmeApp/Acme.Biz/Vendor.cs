@@ -85,6 +85,21 @@ namespace Acme.Biz
             return confirmation;
         }
 
+        public static List<string> SendEmail(ICollection<Vendor> vendors, string message)
+        {
+            var confirmations = new List<string>();
+            var emailService = new EmailService();
+            Console.WriteLine(vendors.Count);
+
+            foreach (var vendor in vendors)
+            {
+                var subject = "Important message for : " + vendor.CompanyName;
+                var confirmation = emailService.SendMessage(subject, message, vendor.Email);
+                confirmations.Add(confirmation);
+            }
+            return confirmations;
+        }
+
         /// <summary>
         /// Overridden to support comparison
         /// </summary>
